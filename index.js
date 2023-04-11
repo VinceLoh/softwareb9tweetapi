@@ -96,6 +96,19 @@ app.post("/tweets/new",(req,res)=>{
         })
 })
 
+// get tweet by ID 
+app.get("/tweets/:id",(req,res)=>{
+    console.log('getting tweet ID from DB')
+    console.log(req.params.id);
+    tweet.findById(req.params.id)
+        .then((data)=>{
+            res.json(data)
+        })
+        .catch((error)=>{
+            res.json(error)
+        })
+})
+
 // define a port for API to run in 
 let PORT = 8888
 app.listen(PORT, ()=>{
