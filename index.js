@@ -109,6 +109,22 @@ app.get("/tweets/:id",(req,res)=>{
         })
 })
 
+app.delete("/tweets/delete/:id",(req,res)=>{
+    console.log('getting delete request')
+    console.log(req.params.id)
+    tweet.findByIdAndDelete(req.params.id)
+        .then((data)=>{
+            console.log(data)
+            console.log('delete successful')
+            res.json(data)
+        })
+        .catch((err)=>{
+            console.log(err)
+            console.log('delete unsuccessful')
+            res.json(err)
+        })
+})
+
 // define a port for API to run in 
 let PORT = 8888
 app.listen(PORT, ()=>{
