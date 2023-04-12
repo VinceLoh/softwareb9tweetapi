@@ -109,6 +109,7 @@ app.get("/tweets/:id",(req,res)=>{
         })
 })
 
+// delete tweet by ID
 app.delete("/tweets/delete/:id",(req,res)=>{
     console.log('getting delete request')
     console.log(req.params.id)
@@ -125,8 +126,38 @@ app.delete("/tweets/delete/:id",(req,res)=>{
         })
 })
 
+// find tweet by ID and increase likes
+app.put("/tweets/likes/:id", (req, res)=>{
+    console.log('find tweet by ID and + like ')
+    console.log(req.params.id)
+    // find tweet by ID 
+    tweet.findById(req.params.id)
+        .then((data)=>{
+            console.log(data)
+            // res.json(data)
+            // increase likes by 1
+            console.log('updating...')
+            tweet.findByIdAndUpdate(req.params.id,
+                                    {"likes":data.likes+1},
+                                    {new:true})
+                .then((dataU)=>{
+                    console.log(dataU)
+                    console.log('like+1')
+                    res.json(dataU)
+                })
+                .catch((err)=>{
+                    console.log(err)
+                    res.json(err)
+                })
+        })
+        .catch((error)=>{
+            console.log(error)
+            res.json(error)
+        })
+})
+
 // define a port for API to run in 
 let PORT = 8888
 app.listen(PORT, ()=>{
     console.log(`Listening on port:${PORT}`);
-})
+})  
